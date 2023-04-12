@@ -10,12 +10,7 @@ Write-Host "PowerShell HTTP trigger function processed a request."
 
 # Interact with query parameters or the body of the request.
 $length = $Request.Query.length
-
-if ($Request.Query.number) {
-    $number = $Request.Query.number
-} else {
-$number = 1
-}
+if ($Request.Query.number) { $number = $Request.Query.number } else { $number = 1 }
 
 function New-Password {
     [CmdletBinding()]
