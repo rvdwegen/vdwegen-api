@@ -11,6 +11,8 @@
 
 Import-Module .\GraphHelper.psm1
 
+$ProgressPreference = 'SilentlyContinue'
+
 try {
     Disable-AzContextAutosave -Scope Process | Out-Null
 }
