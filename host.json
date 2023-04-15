@@ -5,7 +5,7 @@
   },
   "extensions": {
     "http": {
-      "routePrefix": ""
+      "routePrefix": "v1.0"
     }
   },
   "extensionBundle": {
