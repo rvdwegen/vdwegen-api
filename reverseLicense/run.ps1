@@ -24,7 +24,7 @@ try {
 
     if (!($licenseResult)) {
         $StatusCode = [HttpStatusCode]::BadRequest
-        $licenseResult = "No license found"
+        $licenseResult = "No license information found"
     }
 
 } catch {
