@@ -36,5 +36,5 @@ try {
 # Associate values to output bindings by calling 'Push-OutputBinding'.
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = $StatusCode
-    Body       = @($licenseResult)
+    Body       = $licenseResult
 })
