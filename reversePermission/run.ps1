@@ -28,7 +28,7 @@ try {
     $permissionsData = (Invoke-RestMethod -Method GET -Headers $header -Uri "https://graph.microsoft.com/v1.0/servicePrincipals?`$filter=appId eq '00000003-0000-0000-c000-000000000000'&`$select=approles,oauth2PermissionScopes").value
 
     $oauth2PermissionsData = $permissionsData.oauth2PermissionScopes | Select-Object @{N='id'; E={$_.id}}, @{N='friendlyName'; E={$_.value}}, @{N='shortDescription'; E={$_.adminConsentDisplayName}}, @{N='description'; E={$_.adminConsentDescription}}, @{N='type'; E={"Delegated"}}, @{N='api'; E={"Graph"}}
-    $appRolesData = $permissionsData.appRoles | Select-Object @{N='id'; E={$_.id}}, @{N='friendlyName'; E={$_.value}}, @{N='displayName'; E={$_.displayName}}, @{N='shortDescription'; E={$_.description}}, @{N='type'; E={"Application"}}, @{N='api'; E={"Graph"}}
+    $appRolesData = $permissionsData.appRoles | Select-Object @{N='id'; E={$_.id}}, @{N='friendlyName'; E={$_.value}}, @{N='shortDescription'; E={$_.displayName}}, @{N='description'; E={$_.description}}, @{N='type'; E={"Application"}}, @{N='api'; E={"Graph"}}
     $combinedPermissionsData = $appRolesData + $oauth2PermissionsData
 
     if ($permission -match '(^([0-9A-Fa-f]{8}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{12})$)') {
