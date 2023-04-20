@@ -22,8 +22,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add . --force
-          git commit -am "commit licensetable.csv file"
+          git diff --quiet && git diff --staged --quiet || git commit -am "commit licensetable.csv file"
       - name: Push changes
         uses: ad-m/github-push-action@master
         if: steps.commit.outputs.exit_code == 0
