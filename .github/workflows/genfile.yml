@@ -1,0 +1,27 @@
+name: Generate Permissions.Json
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Generate Permissions file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: run the thing
+        shell: pwsh
+        run: New-Item -Path . -Name "testfile1.txt" -ItemType "file" -Value "This is a text string."
+      - name: Commit file
+        id: commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add . --force
+          git commit -am "commit file123"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        if: steps.commit.outputs.exit_code == 0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
