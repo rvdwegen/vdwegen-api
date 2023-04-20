@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v3
       - name: run the thing
         shell: pwsh
-        run: New-Item -Path . -Name "testfile1.txt" -ItemType "file" -Value "This is a text string2."
+        run: New-Item -Path . -Name "testfile1.txt" -ItemType "file" -Value "This is a text string2." -Force
       - name: Commit file
         id: commit
         run: |
