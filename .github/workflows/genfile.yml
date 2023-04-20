@@ -1,17 +1,17 @@
-name: Generate Permissions.Json
+name: Generate license CSV
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Generate Permissions file
+    name: Generate license CSV
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: run the thing
+      - name: Build the file
         shell: pwsh
-        run: New-Item -Path . -Name "testfile1.txt" -ItemType "file" -Value "This is a text string2." -Force
+        run: .\build-licensetable.ps1
       - name: Commit file
         id: commit
         run: |
