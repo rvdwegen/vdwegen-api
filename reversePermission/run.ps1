@@ -31,6 +31,8 @@ try {
     $appRolesData = $permissionsData.appRoles | Select-Object @{N='id'; E={$_.id}}, @{N='friendlyName'; E={$_.value}}, @{N='shortDescription'; E={$_.displayName}}, @{N='description'; E={$_.description}}, @{N='type'; E={"Application"}}, @{N='api'; E={"Graph"}}
     $combinedPermissionsData = $appRolesData + $oauth2PermissionsData
 
+    $combinedPermissionsData | ConvertTo-Json | Out-File -FilePath "lol.json"
+
     if ($permission -match '(^([0-9A-Fa-f]{8}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{12})$)') {
         $permissionResult = ($combinedPermissionsData | Where-Object { $_.id -eq $permission })
     } else {
