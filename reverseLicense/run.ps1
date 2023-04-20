@@ -14,8 +14,10 @@ $license = $Request.Query.license
 try {
 
     $licenseDataURL = "https://download.microsoft.com/download/e/3/e/e3e9faf2-f28b-490a-9ada-c6089a1fc5b0/Product%20names%20and%20service%20plan%20identifiers%20for%20licensing.csv"
-    $licenseData = (Invoke-RestMethod -Method GET -Uri $licenseDataURL) | ConvertFrom-Csv | Sort-Object -Property 'GUID' -Unique
-
+    #$licenseData = (Invoke-RestMethod -Method GET -Uri $licenseDataURL) | ConvertFrom-Csv | Sort-Object -Property 'GUID' -Unique
+    Set-Location (Get-Item $PSScriptRoot).Parent.FullName
+    $licenseData = Import-Csv -Path licensetable.csv
+    
     if ($license -match '(^([0-9A-Fa-f]{8}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{12})$)') {
         $licenseResult = ($licenseData | Where-Object { $_.GUID -eq $license } | Select-Object Product_Display_Name).Product_Display_Name
     } else {
