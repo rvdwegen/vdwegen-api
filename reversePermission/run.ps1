@@ -45,7 +45,7 @@ try {
 catch {
     $ErrorMessage = $_.Exception.Message
     $StatusCode = [HttpStatusCode]::BadRequest
-    $permissionResult = "$($ErrorMessage)"
+    $permissionResult = "Error1: $($ErrorMessage)"
 }
 
 # Associate values to output bindings by calling 'Push-OutputBinding'.
