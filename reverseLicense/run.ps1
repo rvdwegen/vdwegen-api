@@ -25,8 +25,9 @@ try {
     }
 
     if (!($licenseResult)) {
-        $StatusCode = [HttpStatusCode]::NotFound
-        $licenseResult = "No license information found"
+        #$StatusCode = [HttpStatusCode]::NotFound
+        #$licenseResult = "No license information found"
+        $licenseResult = $license
     }
 
 } catch {
