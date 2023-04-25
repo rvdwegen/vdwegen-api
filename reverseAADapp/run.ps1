@@ -29,18 +29,21 @@ try {
         $appDetailsRAW = Invoke-RestMethod -Method GET -Headers $headers -Uri "https://graph.microsoft.com/v1.0/servicePrincipals('appId=$($appId)')"
     }
 
-    $appDetails = @{
-        appDisplayName              = if ($appDetailsRAW.appDisplayName) { $appDetailsRAW.appDisplayName } else { '' }
-        appDescription              = if ($appDetailsRAW.appDescription) { $appDetailsRAW.appDescription } else { '' }
-        appId                       = if ($appDetailsRAW.appId) { $appDetailsRAW.appId } else { '' }
-        appOwnerOrganizationId      = if ($appDetailsRAW.appOwnerOrganizationId) { $appDetailsRAW.appOwnerOrganizationId } else { '' }
-        #appOwnerDisplayName         = if ($appDetailsRAW) {} else { '' }
-        homepage                    = if ($appDetailsRAW.homepage) { $appDetailsRAW.homepage } else { '' }
-        verifiedPublisherName       = if ($appDetailsRAW.verifiedPublisherName) { $appDetailsRAW.verifiedPublisherName } else { '' }
-    }
-
-    if (!($appDetailsRAW.appOwnerOrganizationId)) {
-        throw "$appId was not found"
+    if ($appDetailsRAW) {
+        Write-Host "app found"
+        $appDetails = @{
+            appDisplayName              = $appDetailsRAW.appDisplayName
+            appDescription              = $appDetailsRAW.appDescription
+            appId                       = $appDetailsRAW.appId
+            appOwnerTenantId            = $appDetailsRAW.appOwnerOrganizationId
+            #appOwnerDefaultDomainName   =
+            #appOwnerDisplayName         = $appDetailsRAW) {} else { '' }
+            homepage                    = $appDetailsRAW.homepage
+            verifiedPublisherName       = $appDetailsRAW.verifiedPublisherName
+        }
+    } else {
+        $StatusCode = [HttpStatusCode]::NotFound
+        $appDetails = "No app found123"
     }
 }
 catch {
