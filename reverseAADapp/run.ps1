@@ -49,7 +49,7 @@ try {
 catch {
     $ErrorMessage = $_.Exception.Message
     $StatusCode = [HttpStatusCode]::BadRequest
-    $appDetails = "$($ErrorMessage)"
+    $appDetails = "lol $($ErrorMessage)"
 }
 
 # Associate values to output bindings by calling 'Push-OutputBinding'.
