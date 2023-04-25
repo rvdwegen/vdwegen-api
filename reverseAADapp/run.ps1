@@ -26,31 +26,35 @@ try {
         $appDetailsRAW = Invoke-RestMethod -Method POST -Headers $headers -Uri "https://graph.microsoft.com/v1.0/servicePrincipals" -Body "{ `"appId`": `"$($appId)`" }" -ContentType "application/Json"
         Invoke-RestMethod -Method DELETE -Headers $headers -Uri "https://graph.microsoft.com/v1.0/servicePrincipals(appId='$($appId)')"
     } catch {
-        Write-Host $_
-        Write-Error $_
         $appDetailsRAW = Invoke-RestMethod -Method GET -Headers $headers -Uri "https://graph.microsoft.com/v1.0/servicePrincipals(appId='$($appId)')"
     }
 
     if ($appDetailsRAW) {
+    
+        $ownerTenantDetails = Invoke-RestMethod -Method "GET" -Headers $headers -Uri "https://graph.microsoft.com/beta/tenantRelationships/findTenantInformationByTenantId(tenantId='$($appDetailsRAW.appOwnerOrganizationId)')"
+    
+        $microsoftTenants = "72f988bf-86f1-41af-91ab-2d7cd011db47|a942cf59-f3c6-4338-acac-d26c18783a46|73da091f-a58d-405f-9015-9bd386425255|f8cdef31-a31e-4b4a-93e4-5f571e91255a"
+    
         $appDetails = @{
-            appDisplayName              = $appDetailsRAW.appDisplayName
+            appDisplayName              = $appDetailsRAW.appDisplayNamef8cdef31-a31e-4b4a-93e4-5f571e91255a
             appDescription              = $appDetailsRAW.appDescription
             appId                       = $appDetailsRAW.appId
             appOwnerTenantId            = $appDetailsRAW.appOwnerOrganizationId
-            #appOwnerDefaultDomainName   =
-            #appOwnerDisplayName         = $appDetailsRAW) {} else { '' }
+            appOwnerDefaultDomainName   = $ownerTenantDetails.defaultDomainName
+            appOwnerDisplayName         = $ownerTenantDetails.displayName
             homepage                    = $appDetailsRAW.homepage
             verifiedPublisherName       = $appDetailsRAW.verifiedPublisherName
+            isOwnerMicrosoft            = if ($appDetailsRAW.appOwnerOrganizationId -match $microsoftTenants) { $true } else { $false }
         }
     } else {
         $StatusCode = [HttpStatusCode]::NotFound
-        $appDetails = "No app found123"
+        $appDetails = "No app found"
     }
 }
 catch {
     $ErrorMessage = $_.Exception.Message
     $StatusCode = [HttpStatusCode]::BadRequest
-    $appDetails = "lol $($ErrorMessage)"
+    $appDetails = "$($ErrorMessage)"
 }
 
 # Associate values to output bindings by calling 'Push-OutputBinding'.
