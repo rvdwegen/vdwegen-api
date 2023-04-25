@@ -35,7 +35,7 @@ try {
     
         $microsoftTenants = "72f988bf-86f1-41af-91ab-2d7cd011db47|a942cf59-f3c6-4338-acac-d26c18783a46|73da091f-a58d-405f-9015-9bd386425255|f8cdef31-a31e-4b4a-93e4-5f571e91255a"
     
-        $appDetails = @{
+        $appDetails = [ordered]@{
             appDisplayName              = $appDetailsRAW.appDisplayName
             appDescription              = $appDetailsRAW.appDescription
             appId                       = $appDetailsRAW.appId
