@@ -42,9 +42,9 @@ try {
             appOwnerTenantId            = $appDetailsRAW.appOwnerOrganizationId
             appOwnerDefaultDomainName   = $ownerTenantDetails.defaultDomainName
             appOwnerDisplayName         = $ownerTenantDetails.displayName
+            appOwnerMicrosoft           = if ($appDetailsRAW.appOwnerOrganizationId -match $microsoftTenants) { $true } else { $false }
             homepage                    = $appDetailsRAW.homepage
             verifiedPublisherName       = $appDetailsRAW.verifiedPublisherName
-            isOwnerMicrosoft            = if ($appDetailsRAW.appOwnerOrganizationId -match $microsoftTenants) { $true } else { $false }
         }
     } else {
         $StatusCode = [HttpStatusCode]::NotFound
