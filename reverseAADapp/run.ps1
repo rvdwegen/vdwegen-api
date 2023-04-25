@@ -26,6 +26,8 @@ try {
         $appDetailsRAW = Invoke-RestMethod -Method POST -Headers $headers -Uri "https://graph.microsoft.com/v1.0/servicePrincipals" -Body "{ `"appId`": `"$($appId)`" }" -ContentType "application/Json"
         Invoke-RestMethod -Method DELETE -Headers $headers -Uri "https://graph.microsoft.com/v1.0/servicePrincipals(appId='$($appId)')"
     } catch {
+        Write-Host $_
+        Write-Error $_
         $appDetailsRAW = Invoke-RestMethod -Method GET -Headers $headers -Uri "https://graph.microsoft.com/v1.0/servicePrincipals(appId='$($appId)')"
     }
 
