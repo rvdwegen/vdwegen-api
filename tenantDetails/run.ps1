@@ -56,6 +56,8 @@ try {
 
 }
 catch {
+Write-Host $_
+Write-Error $_
     $ErrorMessage = $_.Exception.Message
     $StatusCode = [HttpStatusCode]::BadRequest
     $fullDetails = "Error: $($ErrorMessage)"
