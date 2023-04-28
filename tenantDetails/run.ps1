@@ -9,7 +9,7 @@ $StatusCode = [HttpStatusCode]::OK
 Write-Host "PowerShell HTTP trigger function processed a request."
 
 # Interact with query parameters or the body of the request.
-$permission = $Request.Query.permission
+$tenant = $Request.Query.tenant
 
 Connect-AzAccount -Identity
 
