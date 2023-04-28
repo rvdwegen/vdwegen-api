@@ -47,7 +47,7 @@ try {
     # Return
     $TenantDomains = $response.Envelope.body.GetFederationInformationResponseMessage.response.Domains.Domain | Sort-Object
 
-    $fullDetails = @{
+    $fullDetails = [ordered]@{
         displayName = $TenantInformation.displayName
         tenantId = $TenantInformation.tenantId
         defaultDomainName = $TenantInformation.defaultDomainName
