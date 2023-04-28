@@ -11,16 +11,20 @@ Write-Host "PowerShell HTTP trigger function processed a request."
 # Interact with query parameters or the body of the request.
 $tenant = $Request.Query.tenant
 
-Connect-AzAccount -Identity
-
+try {
+    Connect-AzAccount -Identity
     $context = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile.DefaultContext
     $graphToken = [Microsoft.Azure.Commands.Common.Authentication.AzureSession]::Instance.AuthenticationFactory.Authenticate($context.Account, $context.Environment, $context.Tenant.Id.ToString(), $null, [Microsoft.Azure.Commands.Common.Authentication.ShowDialog]::Never, $null, "https://graph.microsoft.com").AccessToken
 
-#Connect-MgGraph -AccessToken $graphToken
-
-$header = @{
-    Authorization = 'bearer {0}' -f $graphToken
-    Accept        = "application/json"
+    $header = @{
+        Authorization = 'bearer {0}' -f $graphToken
+        Accept        = "application/json"
+    }
+} catch {
+    Write-Error $_
+    $ErrorMessage = $_.Exception.Message
+    $StatusCode = [HttpStatusCode]::BadRequest
+    $fullDetails = "Error: $($ErrorMessage)"
 }
 
 try {
