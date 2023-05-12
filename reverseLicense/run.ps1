@@ -19,7 +19,7 @@ try {
     #$licenseData = Import-Csv -Path licensetable.csv
     
     if ($license -match '(^([0-9A-Fa-f]{8}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{4}[-]?[0-9A-Fa-f]{12})$)') {
-        $licenseResult = ($licenseData | Where-Object { $_.GUID -eq $license } | Select-Object Product_Display_Name).Product_Display_Name
+        $licenseResult = ($licenseData | Where-Object { $_.GUID -eq $license })
     } else {
         $licenseResult = ($licenseData | Where-Object { $_.Product_Display_Name -like "*$($license)*" })
     }
