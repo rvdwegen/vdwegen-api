@@ -27,7 +27,7 @@ $header = @{
 
 try {
     # Process data
-    $results = $domains.domain | ForEach-Object {
+    $results = $domains | ForEach-Object {
         try {
             $tenantDetails = Invoke-RestMethod -Method GET -Uri "https://api.officegrip.nl/api/tenantDetails?tenant=$($_)"
         } catch {
