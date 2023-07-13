@@ -80,6 +80,7 @@ try {
 }
 catch {
     $ErrorMessage = $_.Exception.Message
+    Write-Warning $_.Exception.Message
     $StatusCode = [HttpStatusCode]::OK
     $Results = "$($ErrorMessage)"
 }
