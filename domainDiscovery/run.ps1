@@ -10,7 +10,7 @@ $StatusCode = [HttpStatusCode]::OK
 Write-Host "PowerShell HTTP trigger function processed a request."
 
 # Interact with query parameters or the body of the request.
-$domain = $Request.domain
+$domain = $Request.Query.domain
 
 # previous versions of Microsoft.Graph.Authentication module
 Connect-AzAccount -Identity
