@@ -29,7 +29,7 @@ try {
     # Process data
     $results = $domains | ForEach-Object {
         try {
-            $tenantDetails = Invoke-RestMethod -Method GET -Uri "https://api.officegrip.nl/api/tenantDetails?tenant=$($_)"
+            $tenantDetails = Invoke-RestMethod -Method GET -Uri "https://api.vdwegen.app/api/tenantDetails?tenant=$($_)"
         } catch {
             $tenantDetails = $null 
         }
