@@ -73,7 +73,7 @@ try {
             Write-Warning "Failed to get kitterman"
         }
 
-        [pscustomobject]@{ 
+        $result = [pscustomobject]@{ 
             domain = $domain
             tenantDisplayName = if ($tenantDetails) {$tenantDetails.displayName} else { "N/A" }
             tenantId = if ($tenantDetails) {$tenantDetails.tenantId} else { "N/A" }
@@ -89,11 +89,11 @@ catch {
     $ErrorMessage = $_.Exception.Message
     Write-Warning $_.Exception.Message
     $StatusCode = [HttpStatusCode]::OK
-    $Results = "lol $($ErrorMessage)"
+    $Result = "lol $($ErrorMessage)"
 }
 
 # Associate values to output bindings by calling 'Push-OutputBinding'.
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = $StatusCode
-    Body       = @($Results)
+    Body       = $Result
 })
