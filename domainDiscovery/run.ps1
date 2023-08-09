@@ -10,7 +10,7 @@ $StatusCode = [HttpStatusCode]::OK
 Write-Host "PowerShell HTTP trigger function processed a request."
 
 # Interact with query parameters or the body of the request.
-$domains = $Request.body
+$domain = $Request.domain
 
 # previous versions of Microsoft.Graph.Authentication module
 Connect-AzAccount -Identity
@@ -27,7 +27,7 @@ $header = @{
 
 try {
     # Process data
-    $results = $domains | ForEach-Object {
+    $results = $domain | ForEach-Object {
         try {
             $tenantDetails = Invoke-RestMethod -Method GET -Uri "https://api.vdwegen.app/api/tenantDetails?tenant=$($_)"
         } catch {
