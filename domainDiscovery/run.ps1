@@ -77,12 +77,12 @@ try {
             domain = $domain
             tenantDisplayName = if ($tenantDetails) {$tenantDetails.displayName} else { "N/A" }
             tenantId = if ($tenantDetails) {$tenantDetails.tenantId} else { "N/A" }
-            MailProvider = ($mailProviderData | Select-Object -Unique) -join "|"
+            MailProvider = ($mailProviderData | Select-Object -Unique)
             spfKitterman = if (($kitterman | select-string "SPF record passed validation test" | Select-Object -First 1)) { "PASS" } else { "FAIL" }
             exchangeOnline = $exchangeOnline
             intune = $intune
             spfKittermanResults = "https://www.kitterman.com/spf/getspf3.py?serial=fred12&domain=$($domain)"
-            tenantDomains = if ($tenantDetails) {$tenantDetails.tenantDomains -join "|"} else { "N/A" }
+            tenantDomains = if ($tenantDetails) {$tenantDetails.tenantDomains} else { @() }
         }
 }
 catch {
