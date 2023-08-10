@@ -35,9 +35,39 @@ try {
         throw "Tenant $($tenantDomain) could not be found"
     }
 
-
     if ($TenantId) {
         $TenantInformation = Invoke-RestMethod -Method 'GET' -Headers $header -Uri "https://graph.microsoft.com/beta/tenantRelationships/findTenantInformationByTenantId(tenantId='$TenantId')"
+    }
+
+    if ($TenantInformation) {
+        try {
+            $mailProvider = ((Invoke-RestMethod -Method GET -Uri "https://dns.google/resolve?name=$($TenantInformation.defaultDomainName)&type=mx").Answer.data | ForEach-Object { $Priority, $Hostname = $_.Split(' '); @{ prio = $Priority; Host = $hostname } }).Host
+            $MailproviderData = switch -Wildcard ($mailProvider) {
+                "*.mail.protection.outlook.com." { "Microsoft 365" }
+                "*.google.com." { "Google" }
+                "*.sophos.com." { "Sophos" }
+                "*.googlemail.com." { "Google" }
+                "*.transip.email." { "TransIP" }
+                "*.premiumantispam.nl." { "TransIP" }
+                "*.basenet.nl." { "BaseNet" }
+                "*.ppe-hosted.com." { "ProofPoint" }
+                "*.pphosted.com." { "ProofPoint" }
+                "*.onlinespamfilter.com." { "Onlinespamfilter.nl" }
+                "*.onlinespamfilter.nl." { "Onlinespamfilter.nl" }
+                "*.fortimailcloud.com." { "FortiMail" }
+                "*.mailprotect.be." { "Combell" }
+                "*.mtaroutes.com." { "Mail Assure (N-Able)" }
+                "*.spamexperts.net." { "N-Able SpamExperts" }
+                "*.spamexperts.com." { "N-Able SpamExperts" }
+                "*.antispamcloud.com." { "N-Able SpamExperts" }
+                "*.spamexperts.eu." { "N-Able SpamExperts" }
+                "*.messagelabs.com." { "Symantec Messaging Security" }
+                Default { $_ }
+            }
+        } catch {
+            Write-Warning "Failed to get mailprovider"
+        }
+    
     }
     
     if ($TenantInformation) {
@@ -60,6 +90,7 @@ try {
         displayName = $TenantInformation.displayName
         tenantId = $TenantInformation.tenantId
         defaultDomainName = $TenantInformation.defaultDomainName
+        mailProvider = ($mailProviderData | Select-Object -Unique)
         tenantDomains = $TenantDomains
     }
 
