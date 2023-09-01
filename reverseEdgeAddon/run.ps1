@@ -16,6 +16,8 @@ try {
 
 $addonDetails = Invoke-RestMethod -Method GET -Uri "https://microsoftedge.microsoft.com/addons/getproductdetailsbycrxid/$($addon)" | Select-Object name,shortDescription,thumbnail
 
+#"https://microsoftedge.microsoft.com/addons/detail/$addonid"
+
 }
 catch {
     $ErrorMessage = $_.Exception.Message
