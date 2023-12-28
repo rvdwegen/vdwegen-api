@@ -41,11 +41,11 @@ try {
 
     $CloudAssignedAadServerData = @{
         ZeroTouchConfig = @{
-            ForcedEnrollment = 1
+            ForcedEnrollment = "1"
             CloudAssignedTenantDomain = $TenantInformation.defaultDomainName
             CloudAssignedTenantUpn = ""
         }
-    } | ConvertTo-Json -Compress
+    }
     
     $Profile = [pscustomobject]@{
         Version = 2049
