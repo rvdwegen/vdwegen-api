@@ -38,18 +38,12 @@ try {
     if ($TenantId) {
         $TenantInformation = Invoke-RestMethod -Method 'GET' -Headers $header -Uri "https://graph.microsoft.com/beta/tenantRelationships/findTenantInformationByTenantId(tenantId='$TenantId')"
     }
-    
-    $fullDetails = [ordered]@{
-        displayName = $TenantInformation.displayName
-        tenantId = $TenantInformation.tenantId
-        defaultDomainName = $TenantInformation.defaultDomainName
-    }
 
     $CloudAssignedAadServerData = @{
         ZeroTouchConfig = @{
             ForcedEnrollment = '1'
             CloudAssignedTenantDomain = $TenantInformation.defaultDomainName
-            CloudAssignedTenantUpn = '\'
+            CloudAssignedTenantUpn = ""
         }
     } | ConvertTo-Json -Compress
     
