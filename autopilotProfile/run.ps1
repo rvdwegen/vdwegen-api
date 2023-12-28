@@ -51,7 +51,7 @@ try {
             CloudAssignedTenantDomain = $TenantInformation.defaultDomainName
             CloudAssignedTenantUpn = '\'
         }
-    } | ConvertTo-Json
+    } | ConvertTo-Json -Compress
     
     $Profile = [pscustomobject]@{
         Version = 2049
