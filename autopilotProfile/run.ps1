@@ -41,7 +41,7 @@ try {
 
     $CloudAssignedAadServerData = @{
         ZeroTouchConfig = @{
-            ForcedEnrollment = 1
+            ForcedEnrollment = "1"
             CloudAssignedTenantDomain = $TenantInformation.defaultDomainName
             CloudAssignedTenantUpn = ""
         }
