@@ -11,8 +11,9 @@ $StatusCode = [HttpStatusCode]::Found
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = $StatusCode
     Headers     = @{
-        "X-Request-Id" = New-Guid.Guid
+        "X-Request-Id" = (New-Guid).Guid
         Location = $url
     }
+    Body = ''
     #Body       = ($TriggerMetaData.Headers.'CLIENT-IP').Split(':')[0]
 })
