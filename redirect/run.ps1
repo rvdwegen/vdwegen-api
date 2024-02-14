@@ -10,7 +10,8 @@ $StatusCode = [HttpStatusCode]::Found
 # Associate values to output bindings by calling 'Push-OutputBinding'.
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = $StatusCode
-    Headers     = [pscustomobject]@{
+    Headers     = @{
+        "X-Request-Id" = New-Guid.Guid
         Location = $url
     }
     #Body       = ($TriggerMetaData.Headers.'CLIENT-IP').Split(':')[0]
