@@ -11,6 +11,8 @@ try {
     $urlObject = (Get-AzDataTableEntity -Filter "RowKey eq '$($Request.Query.code)'" -context $urlTableContext)
 
 } catch {
+    $_.Exception.Message
+    $_.Exception.Message
     $ErrorMessage = $_.Exception.Message
     $StatusCode = [HttpStatusCode]::Unauthorized
 }
