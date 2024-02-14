@@ -7,4 +7,5 @@
     # 'Az' = '9.*'
     'Az.Accounts' = '2.*'
     'Microsoft.Graph.Authentication' = '1.*'
+    'AzBobbyTables' = '3.*'
 }
