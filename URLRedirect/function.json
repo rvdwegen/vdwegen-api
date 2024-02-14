@@ -1,6 +1,6 @@
 {
-    "scriptFile": "../GraphHelper.psm1",
-    "entryPoint": "Get-RedirectURL",
+    "scriptFile": "../entry.psm1",
+    "entryPoint": "Receive-CippHttpTrigger",
     "bindings": [
       {
         "authLevel": "anonymous",
