@@ -81,3 +81,5 @@ function Get-RedirectURL {
     })
 
 }
+
+Export-ModuleMember -Function @('Get-MicrosoftToken', 'Get-RedirectURL')
