@@ -3,17 +3,18 @@ using namespace System.Net
 # Input bindings are passed in via param block.
 param($Request, $TriggerMetadata)
 
-$url = "https://nu.nl/"
+switch ($Request.Query.urlcode) {
+    AAA { $url = "https://nu.nl/" }
+    BBB { $url = "https://tweakers.net/" }
+    CCC { $url = "https://reddit.com/" }
+    Default {}
+}
 
-$StatusCode = [HttpStatusCode]::Found
+#$url = "https://nu.nl/"
 
 # Associate values to output bindings by calling 'Push-OutputBinding'.
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
-    StatusCode = $StatusCode
-    Headers     = @{
-        "X-Request-Id" = (New-Guid).Guid
-        Location = $url
-    }
-    Body = ''
-    #Body       = ($TriggerMetaData.Headers.'CLIENT-IP').Split(':')[0]
+    StatusCode  = [HttpStatusCode]::Found
+    Headers     = @{ Location = $url }
+    Body        = ''
 })
