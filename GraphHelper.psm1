@@ -48,8 +48,7 @@ function Get-MicrosoftToken {
     try {
         $AuthResponse = (Invoke-WebRequest @Params).Content | ConvertFrom-Json
     } catch {
-        Write-Error "Authentication Error Occured $_"
-        return
+        throw "Authentication Error Occured $_"
     }
 
     return $AuthResponse
