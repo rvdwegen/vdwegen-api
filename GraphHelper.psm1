@@ -69,9 +69,9 @@ function Invoke-URLRedirect {
         $ErrorMessage = $_.Exception.Message
         $StatusCode = [HttpStatusCode]::Unauthorized
     }
-    
+
     $urlTableContext = New-AzDataTableContext -TableName 'shorturls' -StorageAccountName 'stourlshort' -ManagedIdentity
-    
+
     $urlObject = (Get-AzDataTableEntity -Filter "RowKey eq '$($Request.Params.URLslug)'" -context $urlTableContext)
     if (!$urlObject) {
         $urlObject = [PSCustomObject]@{
