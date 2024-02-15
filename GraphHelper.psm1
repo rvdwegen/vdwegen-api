@@ -56,30 +56,36 @@ function Get-MicrosoftToken {
     return $AuthResponse
 }
 
-function Get-RedirectURL {
+function Invoke-URLRedirect {
     # Input bindings are passed in via param block.
     param($Request, $TriggerMetadata)
-
-<#     try {
+    
+    $randomSlug = (("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789").ToCharArray() | Get-Random -Count 8) -Join ""
+    
+    try {
         Connect-AzAccount -Identity
-
-        $urlTableContext = New-AzDataTableContext -TableName 'shorturls' -StorageAccountName 'stourlshort' -ManagedIdentity
-
-        $urlObject = (Get-AzDataTableEntity -Filter "RowKey eq '$($Request.Query.code)'" -context $urlTableContext)
-
     } catch {
         $_.Exception.Message
         $ErrorMessage = $_.Exception.Message
         $StatusCode = [HttpStatusCode]::Unauthorized
-    } #>
+    }
+    
+    $urlTableContext = New-AzDataTableContext -TableName 'shorturls' -StorageAccountName 'stourlshort' -ManagedIdentity
+    
+    $urlObject = (Get-AzDataTableEntity -Filter "RowKey eq '$($Request.Query.code)'" -context $urlTableContext)
+    if (!$urlObject) {
+        $urlObject = [PSCustomObject]@{
+            url = "https://microsoft.com"
+        }
+    }
 
     # Associate values to output bindings by calling 'Push-OutputBinding'.
     Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
         StatusCode  = [HttpStatusCode]::Found
-        Headers     = @{ Location = "https://www.nu.nl/" }
+        Headers     = @{ Location = $urlObject.url }
         Body        = ''
     })
 
 }
 
-Export-ModuleMember -Function @('Get-MicrosoftToken', 'Get-RedirectURL')
+Export-ModuleMember -Function @('Get-MicrosoftToken', 'Invoke-URLRedirect')
