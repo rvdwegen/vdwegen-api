@@ -1,6 +1,6 @@
 {
     "scriptFile": "../entry.psm1",
-    "entryPoint": "Receive-CippHttpTrigger",
+    "entryPoint": "Receive-HttpTrigger",
     "bindings": [
       {
         "authLevel": "anonymous",
