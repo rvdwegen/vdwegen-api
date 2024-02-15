@@ -18,7 +18,6 @@ $urlTableContext = New-AzDataTableContext -TableName 'shorturls' -StorageAccount
 
 $urlObject = (Get-AzDataTableEntity -Filter "RowKey eq '$($Request.Query.code)'" -context $urlTableContext)
 
-
 # Associate values to output bindings by calling 'Push-OutputBinding'.
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode  = [HttpStatusCode]::Found
