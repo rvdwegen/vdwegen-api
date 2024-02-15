@@ -72,7 +72,7 @@ function Invoke-URLRedirect {
     
     $urlTableContext = New-AzDataTableContext -TableName 'shorturls' -StorageAccountName 'stourlshort' -ManagedIdentity
     
-    $urlObject = (Get-AzDataTableEntity -Filter "RowKey eq '$($Request.Query.code)'" -context $urlTableContext)
+    $urlObject = (Get-AzDataTableEntity -Filter "RowKey eq '$($Request.Params.URLslug)'" -context $urlTableContext)
     if (!$urlObject) {
         $urlObject = [PSCustomObject]@{
             url = "https://microsoft.com"

@@ -8,7 +8,7 @@
         "direction": "in",
         "name": "Request",
         "methods": ["get", "post"],
-        "route": "{CIPPEndpoint}"
+        "route": "{URLslug}"
       },
       {
         "type": "http",
