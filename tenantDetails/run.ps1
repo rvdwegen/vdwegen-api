@@ -105,7 +105,7 @@ try {
     if ($userTenantBranding.CustomizationFiles.customCssUrl) {
         try {
             $cssContent = Invoke-WebRequest -Uri $userTenantBranding.CustomizationFiles.customCssUrl -UseBasicParsing | Select-Object -ExpandProperty Content
-            if ($cssContent -match $TenantId) {
+            if ($cssContent -like "*$($TenantId)*") {
                 $aitm = $true
             }
         } catch {
