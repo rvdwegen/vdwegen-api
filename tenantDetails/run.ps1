@@ -108,6 +108,10 @@ try {
             if ($cssContent -like "*$($TenantInformation.tenantId)*") {
                 Write-Host "sdsdfsf"
                 $aitm = $true
+            } else {
+                $cssContent
+                $cssContent
+                $cssContent
             }
         } catch {
             Write-Warning "Failed to retrieve or process custom CSS content: $_"
