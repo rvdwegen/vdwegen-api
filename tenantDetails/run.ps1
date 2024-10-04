@@ -86,12 +86,27 @@ try {
         $TenantDomains = $response.Envelope.body.GetFederationInformationResponseMessage.response.Domains.Domain | Sort-Object
     }
     
+    # New API call to retrieve branding details
+    $brandingBody = @{
+        username = "completelymadeupdoesnthavetobevalid@$($TenantInformation.defaultDomainName)"
+    } | ConvertTo-Json
+
+    $brandingHeaders = @{
+        "Content-Type" = "application/json"
+    }
+
+    $brandingResponse = Invoke-RestMethod -Method Post -Uri "https://login.microsoftonline.com/common/GetCredentialType" -Body $brandingBody -Headers $brandingHeaders
+
+    # Extract UserTenantBranding from the response
+    $userTenantBranding = $brandingResponse.EstsProperties.UserTenantBranding
+    
     $fullDetails = [ordered]@{
         displayName = $TenantInformation.displayName
         tenantId = $TenantInformation.tenantId
         defaultDomainName = $TenantInformation.defaultDomainName
         mailProvider = ($mailProviderData | Select-Object -Unique)
         tenantDomains = $TenantDomains
+        userTenantBranding = $userTenantBranding
     }
 
 }
