@@ -12,25 +12,13 @@ Write-Host "PowerShell HTTP trigger function processed a request."
 $user = $Request.Query.user
 
 try {
-    # Connect to Azure using managed identity
-    Connect-AzAccount -Identity
+    # Get the access token using managed identity
+    $tokenAuthUri = $env:IDENTITY_ENDPOINT + "?resource=https://outlook.com&api-version=2019-08-01"
+    $tokenResponse = Invoke-RestMethod -Method Get -Headers @{"X-IDENTITY-HEADER"=$env:IDENTITY_HEADER} -Uri $tokenAuthUri
+    $outlookToken = $tokenResponse.access_token
 
-    # Get the current context
-    $context = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile.DefaultContext
-
-    # Request a token for https://outlook.com resource with specific client ID
-    $outlookToken = [Microsoft.Azure.Commands.Common.Authentication.AzureSession]::Instance.AuthenticationFactory.Authenticate(
-        $context.Account,
-        $context.Environment,
-        $context.Tenant.Id.ToString(),
-        $null,
-        [Microsoft.Azure.Commands.Common.Authentication.ShowDialog]::Never,
-        "1fec8e78-bce4-4aaf-ab1b-5451cc387264",
-        "https://outlook.com"
-    ).AccessToken
-
-    $header = @{
-        Authorization = 'Bearer {0}' -f $outlookToken
+    $headers = @{
+        Authorization = "Bearer $outlookToken"
         Accept        = "application/json"
         "User-Agent"  = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Teams/1.3.00.24755 Chrome/69.0.3497.128 Electron/4.2.12 Safari/537.36"
     }
