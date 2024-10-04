@@ -109,6 +109,9 @@ try {
                 Write-Host "sdsdfsf"
                 $aitm = $true
             } else {
+                $($TenantInformation.tenantId)
+                $($TenantInformation.tenantId)
+                $($TenantInformation.tenantId)
                 $cssContent
                 $cssContent
                 $cssContent
