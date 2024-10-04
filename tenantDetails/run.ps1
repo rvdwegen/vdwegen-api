@@ -100,13 +100,27 @@ try {
     # Extract UserTenantBranding from the response
     $userTenantBranding = $brandingResponse.EstsProperties.UserTenantBranding
     
-    $fullDetails = [ordered]@{
+    # Check for customCssUrl and load its content
+    $aitm = $false
+    if ($userTenantBranding.CustomizationFiles.customCssUrl) {
+        try {
+            $cssContent = Invoke-WebRequest -Uri $userTenantBranding.CustomizationFiles.customCssUrl -UseBasicParsing | Select-Object -ExpandProperty Content
+            if ($cssContent -match $TenantId) {
+                $aitm = $true
+            }
+        } catch {
+            Write-Warning "Failed to retrieve or process custom CSS content: $_"
+        }
+    }
+    
+    $fullDetails = @{
         displayName = $TenantInformation.displayName
         tenantId = $TenantInformation.tenantId
         defaultDomainName = $TenantInformation.defaultDomainName
         mailProvider = ($mailProviderData | Select-Object -Unique)
         tenantDomains = $TenantDomains
         userTenantBranding = $userTenantBranding
+        aitm = $aitm
     }
 
 }
