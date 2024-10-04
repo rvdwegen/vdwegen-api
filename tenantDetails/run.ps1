@@ -106,7 +106,7 @@ try {
         try {
             # $($TenantInformation.tenantId)
             $cssContent = Invoke-WebRequest -Uri $userTenantBranding.CustomizationFiles.customCssUrl -UseBasicParsing | Select-Object -ExpandProperty Content
-            if ($cssContent -like "*f3c997ef-7f15-486f-89bc-4b8dd1ab62af*") {
+            if ($cssContent -like "*$($TenantInformation.tenantId)*") {
                 Write-Host "sdsdfsf"
                 $aitm = $true
             } else {
