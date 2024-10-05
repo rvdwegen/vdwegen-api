@@ -104,7 +104,12 @@ try {
     $aitm = $false
     if ($userTenantBranding.CustomizationFiles.customCssUrl) {
         try {
-            $cssContent = Invoke-WebRequest -Uri $userTenantBranding.CustomizationFiles.customCssUrl -UseBasicParsing | Select-Object -ExpandProperty Content
+            $cssContentHeaders = @{
+                "Referer" = "https://login.microsoftonline.com"
+                "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+            }
+
+            $cssContent = Invoke-WebRequest -Uri $userTenantBranding.CustomizationFiles.customCssUrl -Headers $cssContentHeaders -UseBasicParsing | Select-Object -ExpandProperty Content
             
             # Array of patterns to check
             # $patterns = @(
