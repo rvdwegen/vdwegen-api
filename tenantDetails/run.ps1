@@ -159,8 +159,10 @@ try {
             $aitm = $patterns | Where-Object { $cssContent -like "*$($_.detection)*" }
 
             if ($aitm) {
-                $cssExtract = ($cssContent | Select-String -Pattern $aitm.cssExtractPattern).Matches[0].Value
+                #$cssExtract = ($cssContent | Select-String -Pattern $aitm.cssExtractPattern).Matches[0].Value
+                $cssExtract = ($cssContent | Select-String -Pattern $aitm.cssExtractPattern).Matches.Value
                 Write-Host "AITM detected: $aitm"
+                Write-Host "CSS cssExtract: $cssExtract"
             } else {
                 Write-Host "AITM not detected"
                 Write-Host "CSS Content: $cssContent"
