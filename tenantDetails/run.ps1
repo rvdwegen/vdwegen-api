@@ -124,8 +124,13 @@ try {
 
             $patterns = @(
                 @{
+                    detection = $TenantInformation.tenantId
+                    friendlyName = "Generic - TenantId"
+                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                },
+                @{
                     detection = 'clone.cipp.app'
-                    friendlyName = "CIPP"
+                    friendlyName = "CIPP.app"
                     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
                 },
                 @{
