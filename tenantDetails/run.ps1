@@ -123,31 +123,31 @@ try {
             # )
 
             $patterns = @(
-                @{
-                    detection = 'clone.cipp.app'
-                    friendlyName = "CIPP"
-                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
-                },
-                @{
-                    detection = 'canary.modernworkplace.services'
-                    friendlyName = "Prof-IT.services"
-                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
-                },
-                @{
-                    detection = "dscm.li"
-                    friendlyName = "Zolder.io"
-                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
-                },
-                @{
-                    detection = "catch.eye.security"
-                    friendlyName = "Eye.security"
-                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
-                },
-                @{
-                    detection = "dakg4cmpuclai.cloudfront.net"
-                    friendlyName = "Canarytokens.org"
-                    cssExtractPattern = 'body\s*\{[^}]*background:\s*url\([''"]([^''"]+)[''"]\)[^}]*\}'
-                }
+                # @{
+                #     detection = 'clone.cipp.app'
+                #     friendlyName = "CIPP"
+                #     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                # },
+                # @{
+                #     detection = 'canary.modernworkplace.services'
+                #     friendlyName = "Prof-IT.services"
+                #     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                # },
+                # @{
+                #     detection = "dscm.li"
+                #     friendlyName = "Zolder.io"
+                #     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                # },
+                # @{
+                #     detection = "catch.eye.security"
+                #     friendlyName = "Eye.security"
+                #     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                # },
+                # @{
+                #     detection = "dakg4cmpuclai.cloudfront.net"
+                #     friendlyName = "Canarytokens.org"
+                #     cssExtractPattern = 'body\s*\{[^}]*background:\s*url\([''"]([^''"]+)[''"]\)[^}]*\}'
+                # }
             )
 
             # Check if any pattern matches
@@ -159,12 +159,66 @@ try {
             } else {
                 Write-Host "AITM not detected"
                 Write-Host "CSS Content: $cssContent"
+
+                # unknown css detection
+                $adaptiveCard = @{
+                    type = "AdaptiveCard"
+                    '$schema' = "http://adaptivecards.io/schemas/adaptive-card.json"
+                    version = "1.2"
+                    body = @(
+                        @{
+                            type = "TextBlock"
+                            text = "Tenant Information"
+                            weight = "Bolder"
+                            size = "Medium"
+                        }
+                        @{
+                            type = "FactSet"
+                            facts = @(
+                                @{
+                                    title = "Display Name"
+                                    value = $TenantInformation.displayName
+                                }
+                                @{
+                                    title = "Tenant ID"
+                                    value = $TenantInformation.tenantId
+                                }
+                            )
+                        }
+                        @{
+                            type = "TextBlock"
+                            text = "CSS Content"
+                            weight = "Bolder"
+                            size = "Medium"
+                            spacing = "Medium"
+                        }
+                        @{
+                            type = "TextBlock"
+                            text = $cssContent
+                            wrap = $true
+                            isSubtle = $true
+                        }
+                    )
+                }
+                
+                $body = @{
+                    type = "message"
+                    attachments = @(
+                        @{
+                            contentType = "application/vnd.microsoft.card.adaptive"
+                            contentUrl = $null
+                            content = $adaptiveCard
+                        }
+                    )
+                } | ConvertTo-Json -Depth 10
+                
+                # What? You did't think I'd be so stupid as to directly include the webhook link right?
+                Invoke-RestMethod -Uri $env:AITMWEBHOOK -Method Post -Body $body -ContentType 'application/json'
+
             }
         } catch {
             Write-Warning "Failed to retrieve or process custom CSS content: $_"
         }
-
-        # unknown css detection
     }
     
     $fullDetails = @{
