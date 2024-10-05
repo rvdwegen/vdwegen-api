@@ -126,7 +126,7 @@ try {
                 @{
                     detection = $TenantInformation.tenantId
                     friendlyName = "Generic - TenantId"
-                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                    cssExtractPattern = "(?s)\{[^}]*url\([^)]*$($TenantInformation.tenantId)[^)]*\)[^}]*\}"
                 },
                 @{
                     detection = 'clone.cipp.app'
