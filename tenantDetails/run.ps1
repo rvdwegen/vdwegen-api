@@ -49,6 +49,8 @@ try {
                 "*.googlemail.com." { "Google" }
                 "*.transip.email." { "TransIP" }
                 "*.premiumantispam.nl." { "TransIP" }
+                "*.spamgw.proserve.nl." { "Proserve" }
+                "*.spamgw-fb.proserve.nl." { "Proserve" }
                 "*.basenet.nl." { "BaseNet" }
                 "*.ppe-hosted.com." { "ProofPoint" }
                 "*.pphosted.com." { "ProofPoint" }
