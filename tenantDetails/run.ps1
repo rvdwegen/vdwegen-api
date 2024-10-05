@@ -126,18 +126,22 @@ try {
                 @{
                     detection = $TenantInformation.tenantId
                     friendlyName = "CIPP or CIPP-like"
+                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
                 },
                 @{
                     detection = "dscm.li"
                     friendlyName = "Zolder.io"
+                    cssExtractPattern = ''
                 },
                 @{
                     detection = "catch.eye.security"
                     friendlyName = "Eye.security"
+                    cssExtractPattern = ''
                 },
                 @{
                     detection = "dakg4cmpuclai.cloudfront.net"
                     friendlyName = "Canarytokens.org"
+                    cssExtractPattern = 'body\s*\{[^}]*background:\s*url\([''"]([^''"]+)[''"]\)[^}]*\}'
                 }
             )
 
@@ -145,6 +149,7 @@ try {
             $aitm = $patterns | Where-Object { $cssContent -like "*$($_.detection)*" }
 
             if ($aitm) {
+                $cssExtract = ($cssContent | Select-String -Pattern $aitm.cssExtractPattern).Matches[0].Value
                 Write-Host "AITM detected: $aitm"
             } else {
                 Write-Host "AITM not detected"
@@ -153,6 +158,8 @@ try {
         } catch {
             Write-Warning "Failed to retrieve or process custom CSS content: $_"
         }
+
+        # unknown css detection
     }
     
     $fullDetails = @{
@@ -163,6 +170,7 @@ try {
         tenantDomains = $TenantDomains
         userTenantBranding = $userTenantBranding
         aitm = $aitm.friendlyName
+        cssExtract = $cssExtract
     }
 
 }
