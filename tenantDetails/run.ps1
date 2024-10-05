@@ -104,18 +104,27 @@ try {
     $aitm = $false
     if ($userTenantBranding.CustomizationFiles.customCssUrl) {
         try {
-            # $($TenantInformation.tenantId)
             $cssContent = Invoke-WebRequest -Uri $userTenantBranding.CustomizationFiles.customCssUrl -UseBasicParsing | Select-Object -ExpandProperty Content
-            if ($cssContent -like "*$($TenantInformation.tenantId)*" -OR $cssContent -like "*dscm.li*") {
-                Write-Host "sdsdfsf"
-                $aitm = $true
+            
+            # Array of patterns to check
+            $patterns = @(
+                $TenantInformation.tenantId, # CIPP or equivalents
+                "dscm.li", # Zolder.io
+                "catch.eye.security", # eye.security
+                "dakg4cmpuclai.cloudfront.net" # canarytokens.org
+                # Add more patterns here as needed, e.g.:
+                # "another-pattern-to-check",
+                # "yet-another-pattern"
+            )
+
+            # Check if any pattern matches
+            $aitm = $patterns | Where-Object { $cssContent -like "*$_*" }
+
+            if ($aitm) {
+                Write-Host "AITM detected: $aitm"
             } else {
-                $($TenantInformation.tenantId)
-                $($TenantInformation.tenantId)
-                $($TenantInformation.tenantId)
-                $cssContent
-                $cssContent
-                $cssContent
+                Write-Host "AITM not detected"
+                Write-Host "CSS Content: $cssContent"
             }
         } catch {
             Write-Warning "Failed to retrieve or process custom CSS content: $_"
