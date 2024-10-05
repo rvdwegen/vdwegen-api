@@ -123,31 +123,31 @@ try {
             # )
 
             $patterns = @(
-                # @{
-                #     detection = 'clone.cipp.app'
-                #     friendlyName = "CIPP"
-                #     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
-                # },
-                # @{
-                #     detection = 'canary.modernworkplace.services'
-                #     friendlyName = "Prof-IT.services"
-                #     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
-                # },
-                # @{
-                #     detection = "dscm.li"
-                #     friendlyName = "Zolder.io"
-                #     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
-                # },
-                # @{
-                #     detection = "catch.eye.security"
-                #     friendlyName = "Eye.security"
-                #     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
-                # },
-                # @{
-                #     detection = "dakg4cmpuclai.cloudfront.net"
-                #     friendlyName = "Canarytokens.org"
-                #     cssExtractPattern = 'body\s*\{[^}]*background:\s*url\([''"]([^''"]+)[''"]\)[^}]*\}'
-                # }
+                @{
+                    detection = 'clone.cipp.app'
+                    friendlyName = "CIPP"
+                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                },
+                @{
+                    detection = 'canary.modernworkplace.services'
+                    friendlyName = "Prof-IT.services"
+                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                },
+                @{
+                    detection = "dscm.li"
+                    friendlyName = "Zolder.io"
+                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                },
+                @{
+                    detection = "catch.eye.security"
+                    friendlyName = "Eye.security"
+                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                },
+                @{
+                    detection = "dakg4cmpuclai.cloudfront.net"
+                    friendlyName = "Canarytokens.org"
+                    cssExtractPattern = 'body\s*\{[^}]*background:\s*url\([''"]([^''"]+)[''"]\)[^}]*\}'
+                }
             )
 
             # Check if any pattern matches
