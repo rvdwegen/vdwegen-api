@@ -107,18 +107,37 @@ try {
             $cssContent = Invoke-WebRequest -Uri $userTenantBranding.CustomizationFiles.customCssUrl -UseBasicParsing | Select-Object -ExpandProperty Content
             
             # Array of patterns to check
+            # $patterns = @(
+            #     $TenantInformation.tenantId, # CIPP or equivalent
+            #     "dscm.li", # Zolder.io
+            #     "catch.eye.security", # eye.security
+            #     "dakg4cmpuclai.cloudfront.net" # canarytokens.org
+            #     # Add more patterns here as needed, e.g.:
+            #     # "another-pattern-to-check",
+            #     # "yet-another-pattern"
+            # )
+
             $patterns = @(
-                $TenantInformation.tenantId, # CIPP or equivalents
-                "dscm.li", # Zolder.io
-                "catch.eye.security", # eye.security
-                "dakg4cmpuclai.cloudfront.net" # canarytokens.org
-                # Add more patterns here as needed, e.g.:
-                # "another-pattern-to-check",
-                # "yet-another-pattern"
+                @{
+                    detection = $TenantInformation.tenantId
+                    friendlyName = "CIPP or CIPP-like"
+                },
+                @{
+                    detection = "dscm.li"
+                    friendlyName = "Zolder.io"
+                },
+                @{
+                    detection = "catch.eye.security"
+                    friendlyName = "Eye.security"
+                },
+                @{
+                    detection = "dakg4cmpuclai.cloudfront.net"
+                    friendlyName = "Canarytokens.org"
+                }
             )
 
             # Check if any pattern matches
-            $aitm = $patterns | Where-Object { $cssContent -like "*$_*" }
+            $aitm = $patterns | Where-Object { $cssContent -like "*$($_.detection)*" }
 
             if ($aitm) {
                 Write-Host "AITM detected: $aitm"
@@ -138,7 +157,7 @@ try {
         mailProvider = ($mailProviderData | Select-Object -Unique)
         tenantDomains = $TenantDomains
         userTenantBranding = $userTenantBranding
-        aitm = $aitm
+        aitm = $aitm.friendlyName
     }
 
 }
