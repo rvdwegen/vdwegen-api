@@ -124,19 +124,24 @@ try {
 
             $patterns = @(
                 @{
-                    detection = $TenantInformation.tenantId
-                    friendlyName = "CIPP or CIPP-like"
+                    detection = 'clone.cipp.app'
+                    friendlyName = "CIPP"
+                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
+                },
+                @{
+                    detection = 'canary.modernworkplace.services'
+                    friendlyName = "Prof-IT.services"
                     cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
                 },
                 @{
                     detection = "dscm.li"
                     friendlyName = "Zolder.io"
-                    cssExtractPattern = ''
+                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
                 },
                 @{
                     detection = "catch.eye.security"
                     friendlyName = "Eye.security"
-                    cssExtractPattern = ''
+                    cssExtractPattern = '\.ext-sign-in-box\s*\{[^}]*\}'
                 },
                 @{
                     detection = "dakg4cmpuclai.cloudfront.net"
