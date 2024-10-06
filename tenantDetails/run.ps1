@@ -30,7 +30,8 @@ try {
 try {
 
     try {
-        $tenantId = (Invoke-RestMethod -Method GET "https://login.windows.net/$tenant/.well-known/openid-configuration").token_endpoint.Split('/')[3]
+        $tenantDeetz = (Invoke-RestMethod -Method GET "https://login.windows.net/$tenant/.well-known/openid-configuration")
+        $tenantId = $tenantDeetz.token_endpoint.Split('/')[3]
     } catch {
         throw "Tenant $($tenantDomain) could not be found"
     }
@@ -233,6 +234,7 @@ try {
     $fullDetails = @{
         displayName = $TenantInformation.displayName
         tenantId = $TenantInformation.tenantId
+        tenantRegion = $tenantDeetz.tenant_region_scope
         defaultDomainName = $TenantInformation.defaultDomainName
         mailProvider = ($mailProviderData | Select-Object -Unique)
         tenantDomains = $TenantDomains
