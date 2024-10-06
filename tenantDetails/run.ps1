@@ -126,11 +126,11 @@ try {
             # )
 
             $patterns = @(
-                @{
-                    detection = $TenantInformation.tenantId
-                    friendlyName = "Generic - TenantId"
-                    cssExtractPattern = "(?s)\{[^}]*url\([^)]*$($TenantInformation.tenantId)[^)]*\)[^}]*\}"
-                },
+                # @{
+                #     detection = $TenantInformation.tenantId
+                #     friendlyName = "Generic - TenantId"
+                #     cssExtractPattern = "(?s)\{[^}]*url\([^)]*$($TenantInformation.tenantId)[^)]*\)[^}]*\}"
+                # },
                 @{
                     detection = 'clone.cipp.app'
                     friendlyName = "CIPP.app"
