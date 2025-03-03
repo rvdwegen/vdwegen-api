@@ -10,9 +10,5 @@ $connectionStatus = "ready"
 
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = [HttpStatusCode]::OK
-    Headers = @{
-        "Content-Type" = "application/json"
-        "Cache-Control" = "no-store"
-    }
-    Body = @{ status = $connectionStatus } | ConvertTo-Json
+    Body = $connectionStatus
 })
