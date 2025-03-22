@@ -45,7 +45,7 @@ try {
             $mailProvider = ((Invoke-RestMethod -Method GET -Uri "https://dns.google/resolve?name=$($TenantInformation.defaultDomainName)&type=mx").Answer.data | ForEach-Object { $Priority, $Hostname = $_.Split(' '); @{ prio = $Priority; Host = $hostname } }).Host
             $MailproviderData = switch -Wildcard ($mailProvider) {
                 "*.mail.protection.outlook.com." { "Microsoft 365" }
-                "*.mx.microsoft" { "Microsoft 365" }
+                "*.mx.microsoft." { "Microsoft 365" }
                 "*.google.com." { "Google" }
                 "*.sophos.com." { "Sophos" }
                 "*.googlemail.com." { "Google" }
