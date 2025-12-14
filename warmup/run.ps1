@@ -1,4 +1,5 @@
 # warmup/run.ps1
+using namespace System.Net
 param($Request, $TriggerMetadata)
 
 ## 1. Define the parameters for the token request
