@@ -2,20 +2,31 @@
 using namespace System.Net
 param($Request, $TriggerMetadata)
 
-## 1. Define the parameters for the token request
-$resourceURI = "https://management.azure.com/" # Target resource for the token (ARM)
-$miEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=$($resourceURI)"
+# 1. Check for the IDENTITY_ENDPOINT environment variable provided by the Azure host
+$miEndpoint = $env:IDENTITY_ENDPOINT
+$miSecret = $env:IDENTITY_HEADER
+$resourceURI = "https://management.azure.com/"
 
-## 2. Request the token from the MI endpoint (IMDS)
-# Note: The 'Metadata: true' header is mandatory for this internal endpoint
-$tokenResponse = Invoke-RestMethod -Method Get -Headers @{"Metadata"="true"} -Uri $miEndpoint
+if (-not $miEndpoint -or -not $miSecret) {
+    throw "Managed Identity environment variables (IDENTITY_ENDPOINT/IDENTITY_HEADER) not found. Is Managed Identity enabled on the Function App?"
+}
 
-## 3. Extract the actual access token
+# 2. Construct the Uri for the token request
+$tokenUri = "$($miEndpoint)?resource=$($resourceURI)&api-version=2019-08-01"
+
+# 3. Prepare headers using the required secret/header provided by the host
+# Note: The 'X-IDENTITY-HEADER' replaces the 'Metadata: true' from the IMDS call
+$headers = @{
+    "X-IDENTITY-HEADER" = $miSecret
+}
+
+# 4. Request the token using the host-provided endpoint and secret
+$tokenResponse = Invoke-RestMethod -Method Get -Headers $headers -Uri $tokenUri
+
+# 5. Extract the access token
 $accessToken = $tokenResponse.access_token
 
-Write-Host "Successfully obtained access token."
-
-
+Write-Host "Successfully obtained access token. $($accessToken)"
 
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = [HttpStatusCode]::OK
